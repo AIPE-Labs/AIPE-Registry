@@ -15,7 +15,8 @@ python -m pytest -q
 
 `generated/aipe.json` contains exactly `schema_version` and `capabilities` (complete
 manifest objects, sorted by ID). `generated/aipe.md` is the human/agent-readable
-index. Neither embeds build times, machine paths, or mutable network responses.
+index. `generated/graduation.json` records which capabilities are graduated and
+which are incubating; see [graduation.md](graduation.md). Neither embeds build times, machine paths, or mutable network responses.
 Website builds consume these artifacts; visitors need no GitHub connection.
 Markdown documentation links use the observed source commit. Local staging refs
 without published PRs are labelled publication pending instead of linking missing
@@ -31,7 +32,8 @@ untouched; consumers must check the exit code before publishing it.
 
 [`sources/repositories.yaml`](../sources/repositories.yaml) declares every canonical
 repository, expected ID, manifest path and ref. `pinned` refs must be full commit
-SHAs; `pending_pr` refs explicitly label staging work. To publish after review,
+SHAs; `pending_pr` refs explicitly label staging work. Optional `stage` and `release`
+fields mark graduated capabilities and are verified on refresh. To publish after review,
 update records to upstream merged commit SHAs and `state: pinned`, then refresh.
 
 ```sh
@@ -48,6 +50,10 @@ the manifest from that immutable commit. It only reads public GitHub repositorie
 it does not use credentials, open PRs or write upstream. Pending branches on forks
 must first become accessible through a canonical PR ref (`refs/pull/N/head`) or
 an upstream commit; an unavailable ref fails the complete refresh.
+
+Where the GitHub API is not reachable, check each repository out at its declared
+ref (and fetch the release tag, if one is declared) under one directory and use
+`--checkouts`; the lock then records `origin: local_checkout` for those bytes.
 
 Local refresh records the observed Git HEAD and whether the manifest is dirty.
 Dirty snapshots are labelled, never falsely attributed to that commit. Every
@@ -81,7 +87,7 @@ command rewrites source repositories.
 
 Registry discovers the capabilities of the canonical AIPE repositories: inputs,
 outputs, dependencies, tool accessibility and integration maturity. Engineering
-schemas and contracts belong to [AIPE-Core](https://github.com/FulongLi/AIPE-Core).
+schemas and contracts belong to [AIPE-Core](https://github.com/AIPE-Labs/AIPE-Core).
 The [awesome catalogue](https://github.com/FulongLi/awesome-open-source-power-electronics)
 curates the wider engineering-tool ecosystem; Registry indexes AIPE's declared
 capabilities and supported/evaluated integrations and does not copy that catalogue.

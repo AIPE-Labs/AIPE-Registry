@@ -6,7 +6,7 @@ domains: [power-engineering, power-electronics]
 description: Discover and validate canonical AIPE capabilities and publish reproducible machine-readable and Markdown indexes.
 status: experimental
 maturity: prototype
-repository: https://github.com/FulongLi/AIPE-Registry
+repository: https://github.com/AIPE-Labs/AIPE-Registry
 license: MIT
 capabilities: [capability-discovery, capability-manifest-validation, deterministic-registry-publication]
 inputs:

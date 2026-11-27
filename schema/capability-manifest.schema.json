@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/FulongLi/AIPE-Registry/v0.1.0/schema/capability-manifest.schema.json",
+  "$id": "https://raw.githubusercontent.com/AIPE-Labs/AIPE-Registry/v0.1.0/schema/capability-manifest.schema.json",
   "title": "AIPE capability manifest v0.1",
   "type": "object",
   "additionalProperties": false,

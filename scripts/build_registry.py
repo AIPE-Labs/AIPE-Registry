@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 import sys
 
-from registry import ROOT, RegistryError, discover, document, json_text, markdown, require_valid
+from registry import ROOT, RegistryError, discover, document, graduation, json_text, markdown, require_valid
 
 
 def main(argv=None):
@@ -19,7 +19,8 @@ def main(argv=None):
         require_valid(entries)
         payload = document(entries)
         provenance = {e['manifest']['id']: e['provenance'] for e in entries}
-        outputs = {"aipe.json": json_text(payload), "aipe.md": markdown(payload, provenance)}
+        outputs = {"aipe.json": json_text(payload), "aipe.md": markdown(payload, provenance),
+                   "graduation.json": json_text(graduation(entries))}
         if args.check:
             for name, content in outputs.items():
                 if not (args.output_dir / name).is_file() or (args.output_dir / name).read_bytes() != content.encode("utf-8"):

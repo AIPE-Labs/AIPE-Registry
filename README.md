@@ -6,7 +6,7 @@ validates those manifests against one JSON Schema, pins the exact bytes it read,
 and builds a deterministic machine-readable index (`generated/aipe.json`) and an
 agent-readable index (`generated/aipe.md`) that the AIPE website and coding
 agents consume. Engineering schemas belong to
-[AIPE-Core](https://github.com/FulongLi/AIPE-Core); the wider open-source tool
+[AIPE-Core](https://github.com/AIPE-Labs/AIPE-Core); the wider open-source tool
 landscape is curated separately in the
 [awesome catalogue](https://github.com/FulongLi/awesome-open-source-power-electronics).
 
@@ -23,6 +23,8 @@ landscape is curated separately in the
   recorded commit and dirty-tree provenance
 - Read-only audit diagnostics: stale repositories, unresolved licences,
   documentation drift, connector versions and opt-in link checks
+- Graduation gate: capabilities are marked graduated or incubating in the
+  Registry's own source list, checked by the build and listed in that order
 - Never executes connectors or engineering tools and never rewrites a source
   repository
 
@@ -66,5 +68,7 @@ documentation below.
 - [Capability manifest schema](schema/capability-manifest.schema.json)
 - [Source repositories](sources/repositories.yaml) and
   [snapshot lock](sources/snapshots.lock.json)
-- Generated index: [aipe.json](generated/aipe.json) · [aipe.md](generated/aipe.md)
+- [Graduated and incubating capabilities](docs/graduation.md)
+- Generated index: [aipe.json](generated/aipe.json) · [aipe.md](generated/aipe.md) ·
+  [graduation.json](generated/graduation.json)
 - [CONTRIBUTING.md](CONTRIBUTING.md)

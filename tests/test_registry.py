@@ -225,3 +225,97 @@ def test_refresh_failure_preserves_snapshot_lock(sources, monkeypatch):
 def test_cli_help(script):
     result = subprocess.run([sys.executable, str(ROOT / "scripts" / script), "--help"], capture_output=True, text=True)
     assert result.returncode == 0 and "usage:" in result.stdout
+
+
+LABS = "https://github.com/AIPE-Labs/AIPE-Registry"
+
+
+def rewrite_source(sources, **changes):
+    """Apply the same change to the source list and its lock, as a refresh would."""
+    document = registry.read_yaml(sources)
+    document["repositories"][0].update(changes)
+    sources.write_text(yaml.safe_dump(document), encoding="utf-8")
+    lock_path = sources.parent / "snapshots.lock.json"
+    lock = json.loads(lock_path.read_text())
+    lock["sources"][0].update(changes)
+    lock_path.write_text(registry.json_text(lock), encoding="utf-8")
+
+
+@pytest.mark.parametrize("changes, message", [
+    ({"stage": "graduated"}, "tagged release"),
+    ({"stage": "graduated", "release": "v0.1.0", "repository": "https://github.com/FulongLi/AIPE-Registry"}, "must live under"),
+    ({"stage": "finished"}, "stage must be"),
+    ({"release": "latest"}, "version tag"),
+    ({"release": "v0.1.0", "state": "pending_pr", "ref": "refs/pull/1/head"}, "pinned commit"),
+])
+def test_graduation_rule_is_enforced_by_the_source_list(sources, changes, message):
+    document = registry.read_yaml(sources)
+    document["repositories"][0].update({"repository": LABS, **changes})
+    sources.write_text(yaml.safe_dump(document), encoding="utf-8")
+    with pytest.raises(registry.RegistryError, match=message):
+        registry.source_records(sources)
+
+
+def test_manifest_cannot_declare_itself_graduated(manifest):
+    for field in ("stage", "release", "graduated"):
+        claimed = {**manifest, field: "graduated"}
+        assert any(e["code"] == "schema" for e in errors([claimed]))
+
+
+def test_stage_change_without_refresh_is_lock_drift(sources):
+    assert registry.discover(sources)[0]["provenance"].get("stage") is None
+    document = registry.read_yaml(sources)
+    document["repositories"][0].update(stage="graduated", release="v0.1.0")
+    sources.write_text(yaml.safe_dump(document), encoding="utf-8")
+    with pytest.raises(registry.RegistryError, match="drift"):
+        registry.discover(sources)
+
+
+def test_graduated_listed_first_and_index_envelope_unchanged(sources, manifest, tmp_path):
+    assert manifest["repository"] == LABS
+    rewrite_source(sources, stage="graduated", release="v0.1.0")
+    out = tmp_path / "out"
+    assert build_registry.main(["--sources", str(sources), "--output-dir", str(out)]) == 0
+    assert set(json.loads((out / "aipe.json").read_text())) == {"schema_version", "capabilities"}
+    stages = json.loads((out / "graduation.json").read_text())
+    assert stages["capabilities"] == {manifest["id"]: {"stage": "graduated", "release": "v0.1.0", "commit": "a" * 40, "repository": LABS}}
+    text = (out / "aipe.md").read_text()
+    assert "Stage: **graduated**, release `v0.1.0`." in text
+    assert text.index("## Graduated capabilities") < text.index(f"(`{manifest['id']}`)") < text.index("## Incubating capabilities")
+
+    other = copy.deepcopy(manifest)
+    other.update(id="aipe.aaa", name="Earlier Name", repository="https://github.com/FulongLi/AIPE-Other")
+    payload = registry.document([entry(other), entry(manifest)])
+    text = registry.markdown(payload, {manifest["id"]: {"stage": "graduated", "release": "v0.1.0", "commit": "a" * 40}})
+    assert text.index("## AIPE Registry") < text.index("## Earlier Name")
+    assert "Stage: **incubating**, no tagged release pinned." in text
+    assert registry.graduation([entry(other)])["capabilities"]["aipe.aaa"]["stage"] == "incubating"
+
+
+def test_remote_refresh_rejects_release_tag_on_another_commit(sources, manifest, monkeypatch):
+    document = registry.read_yaml(sources)
+    document["repositories"][0].update(stage="graduated", release="v0.1.0")
+    sources.write_text(yaml.safe_dump(document), encoding="utf-8")
+    before = (sources.parent / "snapshots.lock.json").read_bytes()
+    tag_commit = ["b" * 40]
+
+    def fetch(url):
+        if url.endswith("/commits/v0.1.0"):
+            return json.dumps({"sha": tag_commit[0]}).encode()
+        if "api.github.com" in url:
+            return json.dumps({"sha": "a" * 40, "commit": {"committer": {"date": "2026-10-07T00:00:00Z"}}}).encode()
+        return yaml.safe_dump(manifest).encode()
+    monkeypatch.setattr(refresh, "fetch", fetch)
+    with pytest.raises(registry.RegistryError, match="release v0.1.0"):
+        refresh.refresh(sources, remote=True)
+    assert (sources.parent / "snapshots.lock.json").read_bytes() == before
+    tag_commit[0] = "a" * 40
+    assert refresh.refresh(sources, remote=True) == 1
+    assert registry.discover(sources)[0]["provenance"]["release"] == "v0.1.0"
+
+
+def test_checked_in_graduates_meet_the_rule():
+    graduated = [r for r in registry.source_records() if r.get("stage") == "graduated"]
+    assert graduated, "at least one graduated capability is expected"
+    for record in graduated:
+        assert record["repository"].startswith(registry.GRADUATED_ORGANISATION) and record["release"] and record["state"] == "pinned"

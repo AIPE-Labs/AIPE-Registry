@@ -325,7 +325,7 @@
         {
           "description": "Portable SI engineering context to validate.",
           "name": "engineering-state",
-          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+          "schema": "https://raw.githubusercontent.com/AIPE-Labs/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
         }
       ],
       "license": "MIT",
@@ -337,7 +337,7 @@
           "name": "validation-diagnostics"
         }
       ],
-      "repository": "https://github.com/FulongLi/AIPE-Core",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Core",
       "schema_version": "0.1.0",
       "status": "experimental",
       "tools": [
@@ -372,123 +372,7 @@
         ],
         "limitations": [
           "Schema and semantic checks do not prove engineering correctness or authenticate artifacts.",
-          "v0.1.0 schema URLs are logical identifiers until a release tag exists; resolve locally."
-        ],
-        "status": "tested"
-      }
-    },
-    {
-      "capabilities": [
-        "engineering-orchestration",
-        "operating-point-analysis",
-        "converter-concept-calculation",
-        "dab-sps-analysis",
-        "thermal-cooling-screening"
-      ],
-      "compatibility": {
-        "core": "0.1.x",
-        "engineering_state": "0.1.x",
-        "integration": "mapped"
-      },
-      "connectors": [],
-      "dependencies": [
-        {
-          "id": "aipe.core",
-          "optional": false,
-          "version": "0.1.x"
-        },
-        {
-          "id": "aipe.registry",
-          "optional": false,
-          "version": "0.1.x"
-        }
-      ],
-      "description": "Incrementally orchestrate evidence-linked engineering work through Core state and Registry capabilities while retaining existing PEA calculators and interfaces.",
-      "documentation": [
-        "README.md",
-        "docs/ecosystem-orchestration.md",
-        "pea/review/README.md",
-        "CONTRIBUTING.md"
-      ],
-      "domains": [
-        "power-engineering",
-        "power-electronics"
-      ],
-      "id": "aipe.design-agent",
-      "inputs": [
-        {
-          "description": "Explicit requirements and evidence in Core v0.1 state.",
-          "name": "engineering-state",
-          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
-        },
-        {
-          "description": "Complete generated capability index plus reviewed suitability assessments.",
-          "name": "registry"
-        }
-      ],
-      "license": "MIT",
-      "maturity": "prototype",
-      "name": "AIPE Design Agent",
-      "outputs": [
-        {
-          "description": "Auditable selection with rejection reasons; external execution is deferred.",
-          "name": "capability-plan"
-        },
-        {
-          "description": "Copy of input state with an unreviewed analytical proposal and provenance.",
-          "name": "engineering-state",
-          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
-        }
-      ],
-      "repository": "https://github.com/FulongLi/AIPE-Design-Agent",
-      "schema_version": "0.1.0",
-      "status": "experimental",
-      "tools": [
-        {
-          "capabilities": [
-            "engineering-orchestration",
-            "operating-point-analysis",
-            "converter-concept-calculation",
-            "dab-sps-analysis",
-            "thermal-cooling-screening"
-          ],
-          "id": "python",
-          "interfaces": [
-            "cli",
-            "python"
-          ],
-          "licence_class": "open_source",
-          "limitations": [
-            "Existing concept calculators and the new algebraic adapter do not establish physical validation or component suitability."
-          ],
-          "name": "Python",
-          "optional": false,
-          "platforms": [
-            "linux",
-            "windows",
-            "macos"
-          ],
-          "url": "https://www.python.org/"
-        }
-      ],
-      "type": "agent",
-      "validation": {
-        "evidence": [
-          "tests/test_orchestration.py",
-          "tests/test_calculator.py",
-          "tests/test_optimizer.py",
-          "tests/test_dab_sps.py",
-          "tests/test_thermal_cooling.py",
-          "tests/test_thermal_heatsink_optimisation.py",
-          "tests/test_thermal_network.py",
-          "tests/test_thermal_electrothermal.py",
-          "tests/test_thermal_cli.py"
-        ],
-        "limitations": [
-          "Technical suitability and fidelity require an explicit assessment; metadata alone is not an engineering guarantee.",
-          "Only a built-in nominal operating-point adapter executes through the new orchestrator; other tools remain reviewable plans.",
-          "Existing PEA calculator/UI APIs remain separate from the additive Core state path.",
-          "pea.thermal results are analytical correlations (natural/forced convection, cold plate, spreading, Stage A Pareto screening) with stated validity ranges; they are not CFD, FEM or measured values and need the sibling HeatSinkOptimisation checkout."
+          "The checker resolves schemas from the local schemas/ directory and never downloads them."
         ],
         "status": "tested"
       }
@@ -701,6 +585,9 @@
       "description": "Reproducible open-source field-simulation workflows (Gmsh meshing, ElmerGrid conversion, ElmerSolver FEM) for power-electronics thermal conduction, 2-D magnetostatics and 2-D eddy currents, with analytically verified benchmarks, mesh-convergence studies, DAB transformer-window and heat-sink parametric models, and AIPE evidence records (SI units, tool versions, SHA-256 artifacts).",
       "documentation": [
         "README.md",
+        "docs/architecture.md",
+        "examples/heatsink_to247/README.md",
+        "examples/dab_10kw_heatsink/README.md",
         "results/benchmarks.md",
         "docs/jobs/openfoam-heatsink-cfd-job.md",
         "LICENSE"
@@ -746,6 +633,10 @@
         {
           "description": "SI parameter dictionaries (geometry, materials, currents, film coefficients) passed to the benchmark and model classes or the CLI.",
           "name": "model-parameters"
+        },
+        {
+          "description": "Optional AIPE-CAD-Agent STEP model and metadata.json of a heat sink with <device>.pad/<device>.tab solids (models.CadHeatSinkModel).",
+          "name": "cad-step-model"
         },
         {
           "description": "Optional AIPE-Core Engineering State whose operating point supplies currents, frequency and ambient temperature (mapping done by the caller).",
@@ -810,7 +701,7 @@
           ],
           "licence_class": "open_source",
           "limitations": [
-            "ElmerSolver GPL-2.0-or-later, elmersolver library LGPL-2.1; portable Windows build 9.0 (Release 2026-01-20) qualified. Set AIPE_ELMERSOLVER or ELMER_HOME when the binaries are not on PATH. Serial (no MPI) execution only in this package."
+            "ElmerSolver GPL-2.0-or-later, elmersolver library LGPL-2.1; portable Windows build 9.0 (Release 2026-01-20) and the Ubuntu 24.04 ElmerCSC PPA build 26.2 qualified. Set AIPE_ELMERSOLVER or ELMER_HOME when the binaries are not on PATH. Serial (no MPI) execution only in this package."
           ],
           "name": "Elmer FEM (ElmerSolver, ElmerGrid)",
           "optional": false,
@@ -874,10 +765,14 @@
           "tests/test_analytic.py",
           "tests/test_tools_and_mesh.py",
           "tests/test_manifest.py",
-          "results/benchmarks.md"
+          "tests/test_physics_and_geometry.py",
+          ".github/workflows/tests.yml",
+          "results/benchmarks.md",
+          "examples/heatsink_to247/README.md",
+          "examples/dab_10kw_heatsink/README.md"
         ],
         "limitations": [
-          "Tested means: unit tests of parsers/templating/analytic formulas plus end-to-end solver tests executed on Windows 11 with Gmsh 4.15.2 and Elmer 9.0; the solver tests skip when the tools are absent.",
+          "Tested means: unit tests of parsers/templating/analytic formulas plus end-to-end solver tests executed on Windows 11 with Gmsh 4.15.2 and Elmer 9.0 (recorded results) and on every push in GitHub Actions on Ubuntu 24.04 with Gmsh 4.15.2 and Elmer 26.2 from the ElmerCSC PPA, where a skipped solver test fails the job; locally the solver tests skip when the tools are absent.",
           "Benchmarks are verified against closed-form solutions only; no measured validation of any transformer or heat-sink result.",
           "The transformer AC winding-loss factor uses a homogenised solid-block conductivity and is an approximation indicator, not a Litz/foil loss prediction; 3-D transformer models are not provided.",
           "CFD (OpenFOAM) is blocked on this platform; heat-sink film coefficients are supplied values."
@@ -980,6 +875,253 @@
         "magnetics-waveform-storage",
         "magnetics-source-adapters",
         "magnetics-material-lookup",
+        "magnetics-measurement-query",
+        "magnetics-data-provenance",
+        "magnetics-mcp-server",
+        "magnetics-agent-plugin"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "native"
+      },
+      "connectors": [
+        {
+          "id": "aipe-magnetics-database-mcp",
+          "license": "MIT",
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "repository": "https://github.com/AIPE-Labs/AIPE-Magnetics-Database",
+          "security_notes": [
+            "Local stdio transport; no network listener, no API keys, no cloud services.",
+            "Read-only tools; the server never writes files or executes repository content."
+          ],
+          "status": "experimental",
+          "supported_versions": [
+            "mcp>=2,<3"
+          ],
+          "tool": "mcp-python-sdk",
+          "type": "mcp"
+        }
+      ],
+      "dependencies": [],
+      "description": "Standardised, provenance-tracked magnetic data: material properties, core geometries and parts, measured core-loss tables, complex permeability / permittivity and B-H curves from Princeton MagNet, Paderborn LEA, OpenMagnetics MAS, HEFMAG and further sources in Magnetic Data Schema v0.2, with deduplication, licences, query API, CLI and a read-only MCP server.",
+      "documentation": [
+        "README.md",
+        "CHANGELOG.md",
+        "docs/data-format.md",
+        "docs/data-standard-v0.2.md",
+        "docs/source-catalogue.md",
+        "docs/ingestion.md",
+        "docs/provenance-and-limitations.md",
+        "docs/api.md",
+        "docs/migration-v0.3.md",
+        "LICENSING.md"
+      ],
+      "domains": [
+        "power-electronics"
+      ],
+      "extensions": {
+        "aipe.magnetics": {
+          "consumers": [
+            "aipe.magnetics-design"
+          ],
+          "interfaces": {
+            "cli": "aipe-magnetics-db",
+            "mcp": "aipe-magnetics-db-mcp (stdio)",
+            "plugins": [
+              "plugins/claude/aipe-magnetics-database",
+              "plugins/codex/aipe-magnetics-database"
+            ],
+            "python_api": "aipe_magnetics_database.api"
+          },
+          "package": "aipe-magnetics-database 0.3.0",
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "python": ">=3.10",
+          "runtime_requirements": {
+            "optional": {
+              "hdf5": [
+                "h5py"
+              ],
+              "mcp": [
+                "mcp"
+              ]
+            },
+            "required": [
+              "numpy",
+              "pydantic",
+              "jsonschema",
+              "referencing"
+            ]
+          },
+          "standalone_operation": {
+            "requires_aipe_orchestrator": false,
+            "requires_commercial_software": false,
+            "requires_llm_credentials": false,
+            "requires_other_domain_experts": false,
+            "requires_registry_service": false
+          }
+        }
+      },
+      "id": "aipe.magnetics-database",
+      "inputs": [
+        {
+          "description": "Magnetic record (schema 0.1.0 or 0.2.0) with explicit evidence and SI units.",
+          "name": "magnetic-record"
+        },
+        {
+          "description": "Pinned upstream source file (verified by SHA-256) or a user-supplied file of a non-redistributable source.",
+          "name": "source-file"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE Magnetics Database",
+      "outputs": [
+        {
+          "description": "Schema v0.2 records (JSON / JSONL) with provenance, licence, data class and quality flags.",
+          "name": "magnetic-record"
+        },
+        {
+          "description": "aipe.magnetics.table/0.1 tables: explicit columns with SI unit, original unit and definition; rows inline or as JSONL sidecars.",
+          "name": "measurement-table"
+        },
+        {
+          "description": "data/reports/coverage.json and import-<source>.json: per-source counts, exclusions and licence status.",
+          "name": "coverage-report"
+        }
+      ],
+      "repository": "https://github.com/AIPE-Labs/AIPE-Magnetics-Database",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "magnetics-record-schema",
+            "magnetics-data-import",
+            "magnetics-data-validation",
+            "magnetics-data-migration",
+            "magnetics-waveform-storage",
+            "magnetics-source-adapters",
+            "magnetics-material-lookup",
+            "magnetics-measurement-query",
+            "magnetics-data-provenance",
+            "magnetics-mcp-server"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python",
+            "mcp"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Data service only: no loss prediction, fitting, interpolation, design or optimisation (see AIPE-Magnetics-Design).",
+            "Schema validation is not an independent experimental verification; third-party values are unreviewed."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "magnetics-mcp-server"
+          ],
+          "id": "mcp-python-sdk",
+          "interfaces": [
+            "mcp"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Local stdio transport only; read-only tools."
+          ],
+          "name": "Model Context Protocol Python SDK",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://github.com/modelcontextprotocol/python-sdk"
+        },
+        {
+          "capabilities": [
+            "magnetics-agent-plugin"
+          ],
+          "id": "claude-code",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "free_proprietary",
+          "limitations": [
+            "Host only; all data come from the Python package through the MCP server or CLI."
+          ],
+          "name": "Claude Code",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://code.claude.com/"
+        },
+        {
+          "capabilities": [
+            "magnetics-agent-plugin"
+          ],
+          "id": "codex-cli",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Host only; all data come from the Python package."
+          ],
+          "name": "OpenAI Codex CLI",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://github.com/openai/codex"
+        }
+      ],
+      "type": "tool",
+      "validation": {
+        "evidence": [
+          "tests/test_records.py",
+          "tests/data/test_mas_catalogue.py",
+          "tests/store/test_store_api.py",
+          "tests/ingest/test_reproducible_imports.py",
+          "tests/ingest/test_deduplication.py",
+          "tests/interfaces/test_cli_mcp_plugins.py",
+          "data/reports/coverage.json",
+          ".github/workflows/ci.yml"
+        ],
+        "limitations": [
+          "Third-party values are unreviewed; many MAS values originate from manufacturer datasheets whose terms are not covered by the MAS licence.",
+          "Paderborn LEA records are GPL-3.0-only and kept as a separate copyleft subtree.",
+          "Code is MIT; every data record keeps the licence of its source (LICENSING.md), and the curated datasheet catalogue stays NOASSERTION."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "magnetics-material-lookup",
         "magnetics-material-comparison",
         "magnetics-core-loss-estimation",
         "magnetics-hysteresis-evaluation",
@@ -1001,14 +1143,14 @@
       },
       "connectors": [
         {
-          "id": "aipe-magnetics-mcp",
+          "id": "aipe-magnetics-design-mcp",
           "license": "NOASSERTION",
           "platforms": [
             "linux",
             "windows",
             "macos"
           ],
-          "repository": "https://github.com/FulongLi/AIPE-Magnetics-Database",
+          "repository": "https://github.com/FulongLi/AIPE-Magnetics-Design",
           "security_notes": [
             "Local stdio transport; no network listener, no API keys, no cloud services.",
             "Read-only queries and deterministic calculations by default; file-writing tools require --allow-write and an explicit output path inside the allowed directory.",
@@ -1024,18 +1166,23 @@
       ],
       "dependencies": [
         {
+          "id": "aipe.magnetics-database",
+          "optional": false,
+          "version": "0.1.x"
+        },
+        {
           "id": "aipe.core",
           "optional": true,
           "version": "0.1.x"
         }
       ],
-      "description": "Evidence-first magnetic engineering expert: unified magnetic data standard v0.2, loss and hysteresis models with per-capability verification evidence, inductor/transformer design calculations, local MCP server and standalone Codex / Claude Code plugins.",
+      "description": "Evidence-first magnetic component design: consumes AIPE-Magnetics-Database (data standard v0.2), loss and hysteresis models with per-capability verification evidence, inductor/transformer design calculations, local MCP server and standalone Codex / Claude Code plugins.",
       "documentation": [
         "README.md",
         "CHANGELOG.md",
         "docs/architecture.md",
         "docs/audit-v0.1.md",
-        "docs/data-standard-v0.2.md",
+        "docs/migration-v0.3.md",
         "docs/models.md",
         "docs/verification.md",
         "docs/api.md",
@@ -1059,13 +1206,13 @@
             "Uncertainty is reported as unknown unless a source quantifies it."
           ],
           "interfaces": {
-            "cli": "aipe-magnetics",
-            "mcp": "aipe-magnetics-mcp (stdio)",
+            "cli": "aipe-magnetics-design",
+            "mcp": "aipe-magnetics-design-mcp (stdio)",
             "plugins": [
-              "plugins/claude/aipe-magnetics",
-              "plugins/codex/aipe-magnetics"
+              "plugins/claude/aipe-magnetics-design",
+              "plugins/codex/aipe-magnetics-design"
             ],
-            "python_api": "aipe_magnetics.api"
+            "python_api": "aipe_magnetics_design.api"
           },
           "model_maturity": {
             "aipe.magnetics.design_inductor": {
@@ -1163,7 +1310,7 @@
               "status": "reference-and-user-import"
             }
           ],
-          "package": "aipe-magnetics 0.2.0",
+          "package": "aipe-magnetics-design 0.3.0",
           "platforms": [
             "linux",
             "windows",
@@ -1195,6 +1342,7 @@
               ]
             },
             "required": [
+              "aipe-magnetics-database",
               "numpy",
               "scipy",
               "pydantic",
@@ -1211,11 +1359,11 @@
             "requires_registry_service": false
           },
           "verification_evidence": [
-            "src/aipe_magnetics/verification/evidence/v0.2.0.json"
+            "src/aipe_magnetics_design/verification/evidence/v0.3.0.json"
           ]
         }
       },
-      "id": "aipe.magnetics-database",
+      "id": "aipe.magnetics-design",
       "inputs": [
         {
           "description": "Magnetic record (schema 0.1.0 or 0.2.0) with explicit evidence and SI units.",
@@ -1241,7 +1389,7 @@
       ],
       "license": "NOASSERTION",
       "maturity": "prototype",
-      "name": "AIPE Magnetics",
+      "name": "AIPE Magnetics Design",
       "outputs": [
         {
           "description": "Result envelope aipe.magnetics.result/0.2 with values, units, assumptions, model identity and version, sources, verification status, warnings and limitations.",
@@ -1265,18 +1413,12 @@
           "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
         }
       ],
-      "repository": "https://github.com/FulongLi/AIPE-Magnetics-Database",
+      "repository": "https://github.com/FulongLi/AIPE-Magnetics-Design",
       "schema_version": "0.1.0",
       "status": "experimental",
       "tools": [
         {
           "capabilities": [
-            "magnetics-record-schema",
-            "magnetics-data-import",
-            "magnetics-data-validation",
-            "magnetics-data-migration",
-            "magnetics-waveform-storage",
-            "magnetics-source-adapters",
             "magnetics-material-lookup",
             "magnetics-material-comparison",
             "magnetics-core-loss-estimation",
@@ -1399,23 +1541,22 @@
       "type": "tool",
       "validation": {
         "evidence": [
-          "tests/test_records.py",
           "tests/engineering/test_design_capabilities.py",
           "tests/mcp/test_server.py",
           "tests/integrations/test_core_roundtrip.py",
           "tests/integrations/test_registry_manifest.py",
           "tests/plugins/test_packaging.py",
-          "docs/verification-report-v0.2.0.md",
-          "src/aipe_magnetics/verification/evidence/v0.2.0.json",
-          "docs/release-verification-v0.2.0.md",
-          ".github/workflows/validate.yml",
-          ".github/workflows/ci.yml"
+          "docs/verification-report-v0.3.0.md",
+          "src/aipe_magnetics_design/verification/evidence/v0.3.0.json",
+          "docs/release-verification-v0.3.0.md",
+          ".github/workflows/ci.yml",
+          "tests/test_database_integration.py"
         ],
         "limitations": [
           "Verification evidence is recorded per capability and operating range (levels L1-L3); there is no repository-wide validated flag.",
           "Model implementations are verified against analytical, independent-numerical and published references (L2); no experimental (L3) validation is bundled.",
           "Material and core parameters are datasheet-derived with locators and remain review_status unreviewed until an owner review.",
-          "No third-party datasets are redistributed; adapters download or import on demand subject to each source licence.",
+          "No magnetic datasets are stored in this repository; all data come from AIPE-Magnetics-Database under its per-source licences.",
           "Repository licence remains NOASSERTION pending owner decision."
         ],
         "status": "tested"
@@ -1843,7 +1984,7 @@
           "name": "capability-index"
         }
       ],
-      "repository": "https://github.com/FulongLi/AIPE-Registry",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Registry",
       "schema_version": "0.1.0",
       "status": "experimental",
       "tools": [
@@ -2971,7 +3112,12 @@
           "version": "0.1.x"
         },
         {
-          "id": "aipe.design-agent",
+          "id": "aipe.electrical-design",
+          "optional": true,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.thermal-design",
           "optional": true,
           "version": "0.1.x"
         },
@@ -3001,7 +3147,7 @@
           "version": "0.1.x"
         }
       ],
-      "description": "System-level engineering workflow engine executing typed, checkpointed task graphs over AIPE specialist capabilities (design agent, simulation skills, semiconductor and magnetics databases, field simulation, CAD agent), with local tool qualification, Engineering State provenance, cross-module feedback iterations, verification gates and report assembly; first benchmark is the simulation-driven 10 kW dual-active-bridge converter.",
+      "description": "System-level engineering workflow engine executing typed, checkpointed task graphs over AIPE specialist capabilities (electrical and thermal design, simulation skills, semiconductor and magnetics databases, field simulation, CAD and PCB agents), with local tool qualification, Engineering State provenance, cross-module feedback iterations, verification gates and report assembly; first benchmark is the simulation-driven 10 kW dual-active-bridge converter.",
       "documentation": [
         "README.md",
         "docs/architecture.md",
