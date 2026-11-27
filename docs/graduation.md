@@ -36,9 +36,28 @@ fails on any difference between the source list and the lock, so a stage cannot
 be changed without a refresh that re-verifies the tag.
 
 The mechanical rule is necessary, not sufficient. Before a pull request sets
-`stage: graduated`, the reviewer confirms the
-[graduation checklist](https://github.com/AIPE-Labs/.github/blob/main/GRADUATION.md)
-kept with the organisation.
+`stage: graduated`, the reviewer confirms the checklist below.
+
+## Graduation checklist
+
+Process rule first: **transfer the repository to AIPE-Labs, then start the work
+session on it.** An agent session cannot follow a repository across a transfer,
+so work begun before the move is stranded on the old address.
+
+- [ ] MIT licence, declared both in `LICENSE` and in `aipe.yaml` (`license: MIT`).
+- [ ] A tagged release (`vMAJOR.MINOR.PATCH`) on the default branch, with a
+      changelog entry.
+- [ ] CI is green on the default branch.
+- [ ] `aipe.yaml` validates against the Registry schema
+      (`python scripts/validate.py` in this repository) and its `repository`
+      field is the AIPE-Labs address.
+- [ ] An entry point for agents: a CLI, an MCP server, a plugin or a documented
+      machine-readable interface.
+- [ ] An entry point for people: a README plus documentation or a page.
+- [ ] No large binaries and no secrets in the repository or its history.
+- [ ] Data repositories only: the original input files are archived at import
+      time. AIPE-Magnetics-Database lost 81 tables because an upstream file
+      disappeared and no copy had been kept.
 
 ## Where the stage is published
 
