@@ -12,8 +12,9 @@
     },
     "aipe.core": {
       "commit": "a8481c60ddfdced685067227fb16ca534be3eb5b",
+      "release": "v0.1.0",
       "repository": "https://github.com/AIPE-Labs/AIPE-Core",
-      "stage": "incubating"
+      "stage": "graduated"
     },
     "aipe.doc": {
       "commit": "9d2863378d176e5228efed4a1eb88eb8859c0e26",
@@ -62,9 +63,10 @@
       "stage": "incubating"
     },
     "aipe.registry": {
-      "commit": "85b2c71044d2deb6b93567ff5bf5f7af6792a914",
+      "commit": "96426e9d4f2e097a53b65fd783cb660be65b8a46",
+      "release": "v0.1.0",
       "repository": "https://github.com/AIPE-Labs/AIPE-Registry",
-      "stage": "incubating"
+      "stage": "graduated"
     },
     "aipe.semiconductor-database": {
       "commit": "ba52e24dd2bce9d060a4ec81cc4f74ab3ded7db4",

@@ -11,7 +11,9 @@ The same information is machine-readable in `graduation.json`.
 
 | Capability | Type | Maturity | Integration | Release | Canonical repository |
 | --- | --- | --- | --- | --- | --- |
+| AIPE Core (`aipe.core`) | standard | prototype | native | `v0.1.0` | [Repository](https://github.com/AIPE-Labs/AIPE-Core) |
 | AIPE Magnetics Database (`aipe.magnetics-database`) | tool | prototype | native | `v0.3.0` | [Repository](https://github.com/AIPE-Labs/AIPE-Magnetics-Database) |
+| AIPE Registry (`aipe.registry`) | registry | prototype | none | `v0.1.0` | [Repository](https://github.com/AIPE-Labs/AIPE-Registry) |
 
 ## Incubating capabilities
 
@@ -19,7 +21,6 @@ The same information is machine-readable in `graduation.json`.
 | --- | --- | --- | --- | --- | --- |
 | AIPE Academy (`aipe.academy`) | education | prototype | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Academy) |
 | AIPE CAD Agent (`aipe.cad-agent`) | tool | prototype | none | untagged | [Repository](https://github.com/FulongLi/AIPE-CAD-Agent) |
-| AIPE Core (`aipe.core`) | standard | prototype | native | untagged | [Repository](https://github.com/AIPE-Labs/AIPE-Core) |
 | AIPE Doc (`aipe.doc`) | presentation | prototype | none | untagged | [Repository](https://github.com/FulongLi/AIPE-Doc) |
 | AIPE Electrical Design (`aipe.electrical-design`) | tool | prototype | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Electrical-Design) |
 | AIPE Field Simulation (`aipe.field-simulation`) | tool | prototype | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Field-Simulation) |
@@ -28,12 +29,29 @@ The same information is machine-readable in `graduation.json`.
 | Open Engineering Tool Catalogue (`aipe.open-source-catalogue`) | catalogue | usable | none | untagged | [Repository](https://github.com/FulongLi/awesome-open-source-power-electronics) |
 | AIPE PCB Agent (`aipe.pcb-agent`) | agent | prototype | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-PCB-Agent) |
 | AIPE Labs Presentation (`aipe.presentation`) | presentation | prototype | none | untagged | [Repository](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs) |
-| AIPE Registry (`aipe.registry`) | registry | prototype | none | untagged | [Repository](https://github.com/AIPE-Labs/AIPE-Registry) |
 | AIPE Semiconductor Database (`aipe.semiconductor-database`) | database | usable | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Semiconductor-Database) |
 | AIPE Simulation Skills (`aipe.simulation-skills`) | skill_collection | usable | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Simulation-Skills) |
 | AIPE Sketcher (`aipe.sketch`) | tool | usable | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Sketcher) |
 | AIPE Thermal Design (`aipe.thermal-design`) | tool | prototype | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Thermal-Design) |
 | AIPE Workflows (`aipe.workflows`) | agent | prototype | native | untagged | [Repository](https://github.com/FulongLi/AIPE-Workflows) |
+
+## AIPE Core
+
+Versioned SI Engineering State schemas, evidence conventions and semantic interoperability contracts.
+
+Stage: **graduated**, release `v0.1.0`.
+
+Capabilities: engineering-state-schema, engineering-evidence-contracts, offline-state-validation.
+
+Licence: `MIT`. Validation: `tested`.
+
+- [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
+- Limitation: Schema and semantic checks do not prove engineering correctness or authenticate artifacts.
+- Limitation: The checker resolves schemas from the local schemas/ directory and never downloads them.
+- [Documentation: README.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/README.md)
+- [Documentation: docs/metadata.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/docs/metadata.md)
+- [Documentation: docs/architecture-v0.1.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/docs/architecture-v0.1.md)
+- [Documentation: contracts/README.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/contracts/README.md)
 
 ## AIPE Magnetics Database
 
@@ -62,6 +80,23 @@ Licence: `MIT`. Validation: `tested`.
 - [Documentation: docs/api.md](https://github.com/AIPE-Labs/AIPE-Magnetics-Database/blob/ea0e6a24838df71be045d2d85dfea22b506ea29a/docs/api.md)
 - [Documentation: docs/migration-v0.3.md](https://github.com/AIPE-Labs/AIPE-Magnetics-Database/blob/ea0e6a24838df71be045d2d85dfea22b506ea29a/docs/migration-v0.3.md)
 - [Documentation: LICENSING.md](https://github.com/AIPE-Labs/AIPE-Magnetics-Database/blob/ea0e6a24838df71be045d2d85dfea22b506ea29a/LICENSING.md)
+
+## AIPE Registry
+
+Discover and validate canonical AIPE capabilities and publish reproducible machine-readable and Markdown indexes.
+
+Stage: **graduated**, release `v0.1.0`.
+
+Capabilities: capability-discovery, capability-manifest-validation, deterministic-registry-publication.
+
+Licence: `MIT`. Validation: `tested`.
+
+- [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
+- Limitation: Core and Engineering State version identifiers are recognized; Registry does not transform engineering states.
+- Limitation: Staging snapshots may precede upstream merge; inspect sources/snapshots.lock.json before deployment.
+- Limitation: Snapshot-only checks cannot verify repository-relative documentation existence; use --checkouts for that audit.
+- [Documentation: README.md](https://github.com/AIPE-Labs/AIPE-Registry/blob/96426e9d4f2e097a53b65fd783cb660be65b8a46/README.md)
+- [Documentation: CONTRIBUTING.md](https://github.com/AIPE-Labs/AIPE-Registry/blob/96426e9d4f2e097a53b65fd783cb660be65b8a46/CONTRIBUTING.md)
 
 ## AIPE Academy
 
@@ -107,24 +142,6 @@ Licence: `MIT`. Validation: `tested`.
 - [Documentation: README.md](https://github.com/FulongLi/AIPE-CAD-Agent/blob/b81bf693389daa732dc9ee2c686ab3a897f26f81/README.md)
 - [Documentation: docs/parameters.md](https://github.com/FulongLi/AIPE-CAD-Agent/blob/b81bf693389daa732dc9ee2c686ab3a897f26f81/docs/parameters.md)
 - [Documentation: examples/dab-10kw/README.md](https://github.com/FulongLi/AIPE-CAD-Agent/blob/b81bf693389daa732dc9ee2c686ab3a897f26f81/examples/dab-10kw/README.md)
-
-## AIPE Core
-
-Versioned SI Engineering State schemas, evidence conventions and semantic interoperability contracts.
-
-Stage: **incubating**, no tagged release pinned.
-
-Capabilities: engineering-state-schema, engineering-evidence-contracts, offline-state-validation.
-
-Licence: `MIT`. Validation: `tested`.
-
-- [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
-- Limitation: Schema and semantic checks do not prove engineering correctness or authenticate artifacts.
-- Limitation: The checker resolves schemas from the local schemas/ directory and never downloads them.
-- [Documentation: README.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/README.md)
-- [Documentation: docs/metadata.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/docs/metadata.md)
-- [Documentation: docs/architecture-v0.1.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/docs/architecture-v0.1.md)
-- [Documentation: contracts/README.md](https://github.com/AIPE-Labs/AIPE-Core/blob/a8481c60ddfdced685067227fb16ca534be3eb5b/contracts/README.md)
 
 ## AIPE Doc
 
@@ -304,23 +321,6 @@ Licence: `CC-BY-4.0`. Validation: `tested`.
 - Limitation: Registry initialization has a local-only baseline until upstream empty-repository permissions are resolved.
 - [Documentation: README.md](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs/blob/5662ca2c56e77d8382ea7cfedcb9e63105219800/README.md)
 - [Documentation: docs/ecosystem-v0.1.md](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs/blob/5662ca2c56e77d8382ea7cfedcb9e63105219800/docs/ecosystem-v0.1.md)
-
-## AIPE Registry
-
-Discover and validate canonical AIPE capabilities and publish reproducible machine-readable and Markdown indexes.
-
-Stage: **incubating**, no tagged release pinned.
-
-Capabilities: capability-discovery, capability-manifest-validation, deterministic-registry-publication.
-
-Licence: `MIT`. Validation: `tested`.
-
-- [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
-- Limitation: Core and Engineering State version identifiers are recognized; Registry does not transform engineering states.
-- Limitation: Staging snapshots may precede upstream merge; inspect sources/snapshots.lock.json before deployment.
-- Limitation: Snapshot-only checks cannot verify repository-relative documentation existence; use --checkouts for that audit.
-- [Documentation: README.md](https://github.com/AIPE-Labs/AIPE-Registry/blob/85b2c71044d2deb6b93567ff5bf5f7af6792a914/README.md)
-- [Documentation: CONTRIBUTING.md](https://github.com/AIPE-Labs/AIPE-Registry/blob/85b2c71044d2deb6b93567ff5bf5f7af6792a914/CONTRIBUTING.md)
 
 ## AIPE Semiconductor Database
 
