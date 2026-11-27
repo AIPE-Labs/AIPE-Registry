@@ -53,8 +53,8 @@ documentation below.
 
 ## Project Information
 
-- Version: 0.1.0 (capability-manifest schema version and `aipe.yaml`
-  `schema_version`; there is no packaged release)
+- Version: 0.1.0 (release tag `v0.1.0`; also the capability-manifest schema
+  version and `aipe.yaml` `schema_version`; see [CHANGELOG.md](CHANGELOG.md))
 - Status: Prototype (`aipe.yaml`: status `experimental`, maturity `prototype`)
 - Developer: Fulong Li
 - Organisation: Spirit Connect / AIPE Labs
@@ -71,4 +71,4 @@ documentation below.
 - [Graduated and incubating capabilities](docs/graduation.md)
 - Generated index: [aipe.json](generated/aipe.json) · [aipe.md](generated/aipe.md) ·
   [graduation.json](generated/graduation.json)
-- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [CHANGELOG.md](CHANGELOG.md) · [CONTRIBUTING.md](CONTRIBUTING.md)
