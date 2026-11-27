@@ -81,7 +81,7 @@ command rewrites source repositories.
 
 Registry discovers the capabilities of the canonical AIPE repositories: inputs,
 outputs, dependencies, tool accessibility and integration maturity. Engineering
-schemas and contracts belong to [AIPE-Core](https://github.com/FulongLi/AIPE-Core).
+schemas and contracts belong to [AIPE-Core](https://github.com/AIPE-Labs/AIPE-Core).
 The [awesome catalogue](https://github.com/FulongLi/awesome-open-source-power-electronics)
 curates the wider engineering-tool ecosystem; Registry indexes AIPE's declared
 capabilities and supported/evaluated integrations and does not copy that catalogue.

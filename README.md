@@ -6,7 +6,7 @@ validates those manifests against one JSON Schema, pins the exact bytes it read,
 and builds a deterministic machine-readable index (`generated/aipe.json`) and an
 agent-readable index (`generated/aipe.md`) that the AIPE website and coding
 agents consume. Engineering schemas belong to
-[AIPE-Core](https://github.com/FulongLi/AIPE-Core); the wider open-source tool
+[AIPE-Core](https://github.com/AIPE-Labs/AIPE-Core); the wider open-source tool
 landscape is curated separately in the
 [awesome catalogue](https://github.com/FulongLi/awesome-open-source-power-electronics).
 
