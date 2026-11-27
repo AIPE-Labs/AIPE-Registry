@@ -9,7 +9,7 @@
   "description": "Versioned SI Engineering State schemas, evidence conventions and semantic interoperability contracts.",
   "status": "experimental",
   "maturity": "prototype",
-  "repository": "https://github.com/FulongLi/AIPE-Core",
+  "repository": "https://github.com/AIPE-Labs/AIPE-Core",
   "license": "MIT",
   "capabilities": [
     "engineering-state-schema",
@@ -20,7 +20,7 @@
     {
       "name": "engineering-state",
       "description": "Portable SI engineering context to validate.",
-      "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+      "schema": "https://raw.githubusercontent.com/AIPE-Labs/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
     }
   ],
   "outputs": [
@@ -68,7 +68,7 @@
     ],
     "limitations": [
       "Schema and semantic checks do not prove engineering correctness or authenticate artifacts.",
-      "v0.1.0 schema URLs are logical identifiers until a release tag exists; resolve locally."
+      "The checker resolves schemas from the local schemas/ directory and never downloads them."
     ]
   },
   "documentation": [

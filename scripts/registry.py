@@ -99,6 +99,36 @@ def confined(root, relative):
     return candidate
 
 
+GRADUATED_ORGANISATION = "https://github.com/AIPE-Labs/"
+STAGES = ("graduated", "incubating")
+RELEASE_TAG = r"v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?"
+
+
+def check_graduation(record):
+    """The Registry, not the indexed repository, decides the stage; the rule is mechanical.
+
+    `release` claims that the pinned commit is the commit of that release tag (refresh verifies the claim).
+    `stage: graduated` additionally requires the repository to live in the AIPE-Labs organisation.
+    """
+    ident, stage, release = record["id"], record.get("stage", "incubating"), record.get("release")
+    if stage not in STAGES:
+        raise RegistryError(f"{ident}: stage must be graduated or incubating")
+    if release is not None:
+        if not re.fullmatch(RELEASE_TAG, release):
+            raise RegistryError(f"{ident}: release must be a version tag such as v0.1.0")
+        if record["state"] != "pinned":
+            raise RegistryError(f"{ident}: a release tag requires a pinned commit")
+    if stage == "graduated":
+        if not record["repository"].startswith(GRADUATED_ORGANISATION):
+            raise RegistryError(f"{ident}: a graduated capability must live under {GRADUATED_ORGANISATION}")
+        if release is None:
+            raise RegistryError(f"{ident}: a graduated capability must be pinned at a tagged release")
+
+
+def stage_of(provenance):
+    return (provenance or {}).get("stage", "incubating")
+
+
 def source_records(path=ROOT / "sources/repositories.yaml"):
     document = read_yaml(path)
     if not isinstance(document, dict) or set(document) != {"schema_version", "repositories"} or document["schema_version"] != VERSION:
@@ -109,7 +139,7 @@ def source_records(path=ROOT / "sources/repositories.yaml"):
     ids, repos = set(), set()
     for record in records:
         required = {"id", "repository", "ref", "state", "path"}
-        if not isinstance(record, dict) or set(record) != required or not all(isinstance(v, str) for v in record.values()):
+        if not isinstance(record, dict) or not required <= set(record) <= required | {"stage", "release"} or not all(isinstance(v, str) for v in record.values()):
             raise RegistryError(f"invalid source record: {record}")
         if not re.fullmatch(r"[a-z][a-z0-9-]*(\.[a-z][a-z0-9-]*)+", record["id"]):
             raise RegistryError(f"invalid source ID: {record['id']}")
@@ -119,6 +149,7 @@ def source_records(path=ROOT / "sources/repositories.yaml"):
             raise RegistryError("source must declare pinned or pending_pr state and a ref")
         if record["state"] == "pinned" and not re.fullmatch(r"[a-f0-9]{40}", record["ref"]):
             raise RegistryError("pinned source ref must be an immutable 40-character commit")
+        check_graduation(record)
         confined(Path(path).parent, record["path"])
         if record["id"] in ids or record["repository"] in repos:
             raise RegistryError(f"duplicate source ID or repository: {record['id']}")
@@ -149,7 +180,7 @@ def discover(sources=ROOT / "sources/repositories.yaml", checkouts=None):
             raise RegistryError("invalid snapshot lock")
         required_lock_fields = {'id', 'repository', 'ref', 'state', 'path', 'commit', 'committed_at', 'manifest_dirty', 'origin', 'snapshot', 'sha256'}
         for item in lock['sources']:
-            if not isinstance(item, dict) or set(item) != required_lock_fields:
+            if not isinstance(item, dict) or not required_lock_fields <= set(item) <= required_lock_fields | {'stage', 'release'}:
                 raise RegistryError('invalid snapshot provenance fields')
             if not isinstance(item['commit'], str) or not re.fullmatch(r'[a-f0-9]{40}', item['commit']):
                 raise RegistryError('snapshot provenance requires an immutable commit')
@@ -169,8 +200,8 @@ def discover(sources=ROOT / "sources/repositories.yaml", checkouts=None):
         else:
             root = None
             provenance = locked[source["id"]]
-            for field in ("repository", "ref", "path", "state"):
-                if provenance.get(field) != source[field]:
+            for field in ("repository", "ref", "path", "state", "stage", "release"):
+                if provenance.get(field) != source.get(field):
                     raise RegistryError(f"source/lock {field} drift: {source['id']}; refresh snapshots")
             path = confined(Path(sources).parent, provenance["snapshot"])
             try:
@@ -320,20 +351,57 @@ def document(entries):
     return {"schema_version": VERSION, "capabilities": sorted([e["manifest"] for e in entries], key=lambda m: m["id"])}
 
 
+def graduation(entries):
+    """Stage of every capability, decided by the Registry source list and never by a manifest."""
+    result = {}
+    for entry in entries:
+        manifest, provenance = entry["manifest"], entry.get("provenance") or {}
+        item = {"stage": stage_of(provenance), "repository": manifest["repository"]}
+        for field in ("commit", "release"):
+            if provenance.get(field):
+                item[field] = provenance[field]
+        result[manifest["id"]] = item
+    return {"schema_version": VERSION,
+            "rule": "graduated = listed as graduated in the Registry source list, repository under "
+                    f"{GRADUATED_ORGANISATION}, pinned at the commit of a tagged release; everything else is incubating",
+            "capabilities": dict(sorted(result.items()))}
+
+
 def markdown(payload, provenance=None):
+    provenance = provenance or {}
+
     def escape(value):
         return str(value).replace("&", "&amp;").replace("<", "&lt;").replace("|", "\\|").replace("\n", " ")
-    lines = ["# AIPE — AI for Power Engineering", "", "Generated from validated capability manifests. Open-source first, commercial compatible.", "", "| Capability | Type | Maturity | Integration | Canonical repository |", "| --- | --- | --- | --- | --- |"]
-    for m in payload["capabilities"]:
-        lines.append(f"| {escape(m['name'])} (`{m['id']}`) | {m['type']} | {m['maturity']} | {m['compatibility']['integration']} | [Repository]({m['repository']}) |")
-    for m in payload["capabilities"]:
-        lines += ["", f"## {escape(m['name'])}", "", escape(m["description"]), "", f"Capabilities: {', '.join(m['capabilities'])}.", "", f"Licence: `{escape(m['license'])}`. Validation: `{m['validation']['status']}`.", ""]
+
+    def release(m):
+        return provenance.get(m["id"], {}).get("release")
+
+    groups = {stage: [m for m in payload["capabilities"] if stage_of(provenance.get(m["id"])) == stage] for stage in STAGES}
+    lines = ["# AIPE — AI for Power Engineering", "", "Generated from validated capability manifests. Open-source first, commercial compatible.", "",
+             "Capabilities are **graduated** or **incubating**. The Registry assigns the stage; a repository cannot",
+             f"declare itself graduated. Graduated means: reviewed, living under {GRADUATED_ORGANISATION} and pinned",
+             "here at a tagged release. Incubating capabilities are work in progress and may change or move.",
+             "The same information is machine-readable in `graduation.json`."]
+    titles = {"graduated": "Graduated capabilities", "incubating": "Incubating capabilities"}
+    for stage in STAGES:
+        lines += ["", f"## {titles[stage]}", ""]
+        if not groups[stage]:
+            lines.append("None.")
+            continue
+        lines += ["| Capability | Type | Maturity | Integration | Release | Canonical repository |", "| --- | --- | --- | --- | --- | --- |"]
+        for m in groups[stage]:
+            tag = f"`{release(m)}`" if release(m) else "untagged"
+            lines.append(f"| {escape(m['name'])} (`{m['id']}`) | {m['type']} | {m['maturity']} | {m['compatibility']['integration']} | {tag} | [Repository]({m['repository']}) |")
+    for m in groups["graduated"] + groups["incubating"]:
+        source = provenance.get(m['id'])
+        stage = stage_of(source)
+        label = f"Stage: **{stage}**" + (f", release `{release(m)}`." if release(m) else ", no tagged release pinned.")
+        lines += ["", f"## {escape(m['name'])}", "", escape(m["description"]), "", label, "", f"Capabilities: {', '.join(m['capabilities'])}.", "", f"Licence: `{escape(m['license'])}`. Validation: `{m['validation']['status']}`.", ""]
         for tool in sorted(m["tools"], key=lambda t: t["id"]):
             lines.append(f"- [{escape(tool['name'])}]({tool['url']}): {tool['licence_class']}; {'optional' if tool['optional'] else 'required'}; interfaces: {', '.join(tool['interfaces']) or 'none declared'}.")
         for limitation in m["validation"]["limitations"]:
             lines.append(f"- Limitation: {escape(limitation)}")
         for ref in m["documentation"]:
-            source = (provenance or {}).get(m['id'])
             if not ref.startswith('https://') and source and source.get('state') == 'pending_pr' and not source.get('ref', '').startswith('refs/pull/'):
                 lines.append(f"- Documentation staged locally (publication pending): `{escape(ref)}`")
                 continue

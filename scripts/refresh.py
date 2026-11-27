@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 import re
+import subprocess
 import sys
 from urllib.parse import quote
 from urllib.request import Request, urlopen
@@ -33,6 +34,10 @@ def refresh(sources, checkouts=None, remote=False):
                 raise RegistryError(f"unexpected remote revision: {commit}")
             if source["state"] == "pinned" and commit != source["ref"]:
                 raise RegistryError("remote did not resolve the pinned commit")
+            if source.get("release"):
+                tagged = json.loads(fetch(f"https://api.github.com/repos/{slug}/commits/{quote(source['release'], safe='')}"))["sha"]
+                if tagged != commit:
+                    raise RegistryError(f"{source['id']}: release {source['release']} is commit {tagged}, not the pinned {commit}")
             data = fetch(f"https://raw.githubusercontent.com/{slug}/{commit}/{quote(source['path'], safe='/')}")
             provenance = {"commit": commit, "committed_at": revision["commit"]["committer"]["date"], "manifest_dirty": False, "origin": "remote"}
             root = None
@@ -40,6 +45,11 @@ def refresh(sources, checkouts=None, remote=False):
             root = Path(checkouts).resolve() / source["repository"].rsplit("/", 1)[1]
             data = confined(root, source["path"]).read_bytes()
             provenance = {**git_info(root, source["path"]), "origin": "local_checkout"}
+            if source.get("release"):
+                tagged = subprocess.run(["git", "-C", str(root), "rev-parse", "--verify", "--quiet", f"refs/tags/{source['release']}^{{commit}}"],
+                                        capture_output=True, text=True, check=False).stdout.strip()
+                if tagged != provenance["commit"]:
+                    raise RegistryError(f"{source['id']}: release {source['release']} is not the checked-out commit")
         manifest = parse_yaml(data.decode("utf-8-sig"), source["id"])
         if not isinstance(manifest, dict) or manifest.get("id") != source["id"] or manifest.get("repository") != source["repository"]:
             raise RegistryError(f"manifest/source identity mismatch: {source['id']}")

@@ -1,0 +1,97 @@
+{
+  "capabilities": {
+    "aipe.academy": {
+      "commit": "d98428c21ff6a77e4b8d16d9690a077efaa639c3",
+      "repository": "https://github.com/FulongLi/AIPE-Academy",
+      "stage": "incubating"
+    },
+    "aipe.cad-agent": {
+      "commit": "b81bf693389daa732dc9ee2c686ab3a897f26f81",
+      "repository": "https://github.com/FulongLi/AIPE-CAD-Agent",
+      "stage": "incubating"
+    },
+    "aipe.core": {
+      "commit": "a8481c60ddfdced685067227fb16ca534be3eb5b",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Core",
+      "stage": "incubating"
+    },
+    "aipe.doc": {
+      "commit": "9d2863378d176e5228efed4a1eb88eb8859c0e26",
+      "repository": "https://github.com/FulongLi/AIPE-Doc",
+      "stage": "incubating"
+    },
+    "aipe.electrical-design": {
+      "commit": "6e515ae040c8da9daf929c98e8584244e15521e6",
+      "repository": "https://github.com/FulongLi/AIPE-Electrical-Design",
+      "stage": "incubating"
+    },
+    "aipe.field-simulation": {
+      "commit": "63d2898f81905abab15c661d980563b273fe94dc",
+      "repository": "https://github.com/FulongLi/AIPE-Field-Simulation",
+      "stage": "incubating"
+    },
+    "aipe.ieee-paper-agent": {
+      "commit": "5192c621f4d1d53a40734aca62c0d180afc99194",
+      "repository": "https://github.com/FulongLi/AIPE-IEEE-Paper-Agent",
+      "stage": "incubating"
+    },
+    "aipe.magnetics-database": {
+      "commit": "ea0e6a24838df71be045d2d85dfea22b506ea29a",
+      "release": "v0.3.0",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Magnetics-Database",
+      "stage": "graduated"
+    },
+    "aipe.magnetics-design": {
+      "commit": "ae9c4965eca6882d75e8252a4a7822f550366f88",
+      "repository": "https://github.com/FulongLi/AIPE-Magnetics-Design",
+      "stage": "incubating"
+    },
+    "aipe.open-source-catalogue": {
+      "commit": "2ff81b28669d8c9a27a150eb2b2fd85bb70a76a5",
+      "repository": "https://github.com/FulongLi/awesome-open-source-power-electronics",
+      "stage": "incubating"
+    },
+    "aipe.pcb-agent": {
+      "commit": "b0e0710085e3f9d6dc622b52a774f7630633334d",
+      "repository": "https://github.com/FulongLi/AIPE-PCB-Agent",
+      "stage": "incubating"
+    },
+    "aipe.presentation": {
+      "commit": "5662ca2c56e77d8382ea7cfedcb9e63105219800",
+      "repository": "https://github.com/FulongLi/Spirit-Connect-AIPE-Labs",
+      "stage": "incubating"
+    },
+    "aipe.registry": {
+      "commit": "85b2c71044d2deb6b93567ff5bf5f7af6792a914",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Registry",
+      "stage": "incubating"
+    },
+    "aipe.semiconductor-database": {
+      "commit": "ba52e24dd2bce9d060a4ec81cc4f74ab3ded7db4",
+      "repository": "https://github.com/FulongLi/AIPE-Semiconductor-Database",
+      "stage": "incubating"
+    },
+    "aipe.simulation-skills": {
+      "commit": "1301c89ea9630d458c1136e15b2c1861002c5090",
+      "repository": "https://github.com/FulongLi/AIPE-Simulation-Skills",
+      "stage": "incubating"
+    },
+    "aipe.sketch": {
+      "commit": "57a343e91b4005b14f57e2bc51685de6a5f4a983",
+      "repository": "https://github.com/FulongLi/AIPE-Sketcher",
+      "stage": "incubating"
+    },
+    "aipe.thermal-design": {
+      "commit": "177ad34a0084d7d7b1765e6d3b51300938962e14",
+      "repository": "https://github.com/FulongLi/AIPE-Thermal-Design",
+      "stage": "incubating"
+    },
+    "aipe.workflows": {
+      "commit": "6284f1864a1dbabbc089f9194f9f03056aedcf13",
+      "repository": "https://github.com/FulongLi/AIPE-Workflows",
+      "stage": "incubating"
+    }
+  },
+  "rule": "graduated = listed as graduated in the Registry source list, repository under https://github.com/AIPE-Labs/, pinned at the commit of a tagged release; everything else is incubating",
+  "schema_version": "0.1.0"
+}
