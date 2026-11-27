@@ -11,8 +11,8 @@ schema_version: 0.1.0
 # and HeatSinkOptimisation became AIPE-Thermal-Design (2026-10-21).
 # AIPE-Sketch was renamed AIPE-Sketcher (v0.2.0); the stable capability id aipe.sketch is unchanged.
 repositories:
-  - {id: aipe.core, repository: 'https://github.com/AIPE-Labs/AIPE-Core', ref: a8481c60ddfdced685067227fb16ca534be3eb5b, state: pinned, path: aipe.yaml}
-  - {id: aipe.registry, repository: 'https://github.com/AIPE-Labs/AIPE-Registry', ref: 85b2c71044d2deb6b93567ff5bf5f7af6792a914, state: pinned, path: aipe.yaml}
+  - {id: aipe.core, repository: 'https://github.com/AIPE-Labs/AIPE-Core', ref: a8481c60ddfdced685067227fb16ca534be3eb5b, state: pinned, path: aipe.yaml, stage: graduated, release: v0.1.0}
+  - {id: aipe.registry, repository: 'https://github.com/AIPE-Labs/AIPE-Registry', ref: 96426e9d4f2e097a53b65fd783cb660be65b8a46, state: pinned, path: aipe.yaml, stage: graduated, release: v0.1.0}
   - {id: aipe.magnetics-database, repository: 'https://github.com/AIPE-Labs/AIPE-Magnetics-Database', ref: ea0e6a24838df71be045d2d85dfea22b506ea29a, state: pinned, path: aipe.yaml, stage: graduated, release: v0.3.0}
   - {id: aipe.semiconductor-database, repository: 'https://github.com/FulongLi/AIPE-Semiconductor-Database', ref: ba52e24dd2bce9d060a4ec81cc4f74ab3ded7db4, state: pinned, path: aipe.yaml}
   - {id: aipe.magnetics-design, repository: 'https://github.com/FulongLi/AIPE-Magnetics-Design', ref: ae9c4965eca6882d75e8252a4a7822f550366f88, state: pinned, path: aipe.yaml}

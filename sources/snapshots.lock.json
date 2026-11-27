@@ -35,9 +35,11 @@
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "a8481c60ddfdced685067227fb16ca534be3eb5b",
+      "release": "v0.1.0",
       "repository": "https://github.com/AIPE-Labs/AIPE-Core",
       "sha256": "462fa9897a1c9426ef77096e3ec74a8380e9f0165887ec7e89efc84982863beb",
       "snapshot": "snapshots/aipe.core.yaml",
+      "stage": "graduated",
       "state": "pinned"
     },
     {
@@ -160,16 +162,18 @@
       "state": "pinned"
     },
     {
-      "commit": "85b2c71044d2deb6b93567ff5bf5f7af6792a914",
-      "committed_at": "2026-11-27T20:53:52+00:00",
+      "commit": "96426e9d4f2e097a53b65fd783cb660be65b8a46",
+      "committed_at": "2026-11-27T20:58:49+00:00",
       "id": "aipe.registry",
       "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
-      "ref": "85b2c71044d2deb6b93567ff5bf5f7af6792a914",
+      "ref": "96426e9d4f2e097a53b65fd783cb660be65b8a46",
+      "release": "v0.1.0",
       "repository": "https://github.com/AIPE-Labs/AIPE-Registry",
       "sha256": "99cba6b2a8e760a249cb184d759ab73ce3630d9088b4fcc3f1dce0e8312dfb7d",
       "snapshot": "snapshots/aipe.registry.yaml",
+      "stage": "graduated",
       "state": "pinned"
     },
     {

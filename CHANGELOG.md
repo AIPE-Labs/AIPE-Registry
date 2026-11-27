@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- AIPE-Core `v0.1.0` and AIPE-Registry `v0.1.0` are graduated.
+
 ## 0.1.0 — 2026-11-27
 
 First tagged release, published from the AIPE-Labs organisation.
