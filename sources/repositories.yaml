@@ -16,7 +16,7 @@ repositories:
   - {id: aipe.magnetics-database, repository: 'https://github.com/AIPE-Labs/AIPE-Magnetics-Database', ref: ea0e6a24838df71be045d2d85dfea22b506ea29a, state: pinned, path: aipe.yaml, stage: graduated, release: v0.3.0}
   - {id: aipe.semiconductor-database, repository: 'https://github.com/FulongLi/AIPE-Semiconductor-Database', ref: ba52e24dd2bce9d060a4ec81cc4f74ab3ded7db4, state: pinned, path: aipe.yaml}
   - {id: aipe.magnetics-design, repository: 'https://github.com/FulongLi/AIPE-Magnetics-Design', ref: ae9c4965eca6882d75e8252a4a7822f550366f88, state: pinned, path: aipe.yaml}
-  - {id: aipe.simulation-skills, repository: 'https://github.com/FulongLi/AIPE-Simulation-Skills', ref: 1301c89ea9630d458c1136e15b2c1861002c5090, state: pinned, path: aipe.yaml}
+  - {id: aipe.simulation-skills, repository: 'https://github.com/AIPE-Labs/AIPE-Simulation-Skills', ref: 493b64a986e1472eef56cc5897d96aefa9564501, state: pinned, path: aipe.yaml, stage: graduated, release: v0.2.1}
   - {id: aipe.sketch, repository: 'https://github.com/FulongLi/AIPE-Sketcher', ref: 57a343e91b4005b14f57e2bc51685de6a5f4a983, state: pinned, path: aipe.yaml}
   - {id: aipe.academy, repository: 'https://github.com/FulongLi/AIPE-Academy', ref: d98428c21ff6a77e4b8d16d9690a077efaa639c3, state: pinned, path: aipe.yaml}
   - {id: aipe.ieee-paper-agent, repository: 'https://github.com/FulongLi/AIPE-IEEE-Paper-Agent', ref: 5192c621f4d1d53a40734aca62c0d180afc99194, state: pinned, path: aipe.yaml}

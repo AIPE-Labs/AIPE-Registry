@@ -14,6 +14,7 @@ The same information is machine-readable in `graduation.json`.
 | AIPE Core (`aipe.core`) | standard | prototype | native | `v0.1.0` | [Repository](https://github.com/AIPE-Labs/AIPE-Core) |
 | AIPE Magnetics Database (`aipe.magnetics-database`) | tool | prototype | native | `v0.3.0` | [Repository](https://github.com/AIPE-Labs/AIPE-Magnetics-Database) |
 | AIPE Registry (`aipe.registry`) | registry | prototype | none | `v0.1.0` | [Repository](https://github.com/AIPE-Labs/AIPE-Registry) |
+| AIPE Simulation Skills (`aipe.simulation-skills`) | skill_collection | usable | mapped | `v0.2.1` | [Repository](https://github.com/AIPE-Labs/AIPE-Simulation-Skills) |
 
 ## Incubating capabilities
 
@@ -30,7 +31,6 @@ The same information is machine-readable in `graduation.json`.
 | AIPE PCB Agent (`aipe.pcb-agent`) | agent | prototype | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-PCB-Agent) |
 | AIPE Labs Presentation (`aipe.presentation`) | presentation | prototype | none | untagged | [Repository](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs) |
 | AIPE Semiconductor Database (`aipe.semiconductor-database`) | database | usable | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Semiconductor-Database) |
-| AIPE Simulation Skills (`aipe.simulation-skills`) | skill_collection | usable | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Simulation-Skills) |
 | AIPE Sketcher (`aipe.sketch`) | tool | usable | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Sketcher) |
 | AIPE Thermal Design (`aipe.thermal-design`) | tool | prototype | mapped | untagged | [Repository](https://github.com/FulongLi/AIPE-Thermal-Design) |
 | AIPE Workflows (`aipe.workflows`) | agent | prototype | native | untagged | [Repository](https://github.com/FulongLi/AIPE-Workflows) |
@@ -97,6 +97,47 @@ Licence: `MIT`. Validation: `tested`.
 - Limitation: Snapshot-only checks cannot verify repository-relative documentation existence; use --checkouts for that audit.
 - [Documentation: README.md](https://github.com/AIPE-Labs/AIPE-Registry/blob/96426e9d4f2e097a53b65fd783cb660be65b8a46/README.md)
 - [Documentation: CONTRIBUTING.md](https://github.com/AIPE-Labs/AIPE-Registry/blob/96426e9d4f2e097a53b65fd783cb660be65b8a46/CONTRIBUTING.md)
+
+## AIPE Simulation Skills
+
+Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows, plus the executable aipe_simulation package: ngspice qualification and batch runner, dual-active-bridge switching-circuit generator (ideal and behavioural levels) and a solver-independent waveform analysis engine (HDF5 datasets, steady-state detection, per-switch metrics).
+
+Stage: **graduated**, release `v0.2.1`.
+
+Capabilities: averaged-control-analysis, switching-circuit-simulation, mechanical-packaging, pcb-power-stage-review, field-analysis-problem-setup, digital-control-debugging, dab-switching-circuit-generation, waveform-analysis-engine, solver-tool-qualification.
+
+Licence: `MIT`. Validation: `tested`.
+
+- [ANSYS](https://www.ansys.com/): commercial; optional; interfaces: scripting.
+- [CalculiX](https://www.calculix.de/): open_source; optional; interfaces: cli, inp.
+- [COMSOL](https://www.comsol.com/): commercial; optional; interfaces: java-api, batch.
+- [Elmer FEM](https://github.com/ElmerCSC/elmerfem): open_source; optional; interfaces: cli, sif.
+- [FreeCAD](https://www.freecad.org/): open_source; optional; interfaces: python, cli.
+- [GetDP](https://getdp.info/): open_source; optional; interfaces: cli, pro.
+- [Gmsh](https://gmsh.info/): open_source; optional; interfaces: cli, python.
+- [KiCad](https://www.kicad.org/): open_source; optional; interfaces: cli, ipc, python.
+- [LTspice](https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html): free_proprietary; optional; interfaces: batch, netlist.
+- [MATLAB / Simulink](https://www.mathworks.com/products/simulink.html): commercial; optional; interfaces: matlab, batch.
+- [ngspice](https://ngspice.sourceforge.io/): open_source; optional; interfaces: cli, netlist.
+- [openEMS](https://www.openems.de/): open_source; optional; interfaces: python, octave.
+- [PLECS](https://www.plexim.com/plecs): commercial; optional; interfaces: scripting, xml-rpc.
+- [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
+- [python-control](https://python-control.org/): open_source; optional; interfaces: python.
+- [SIMetrix / SIMPLIS](https://www.simetrix.co.uk/): commercial; optional; interfaces: scripting, netlist.
+- Limitation: Solver tests (pytest marker 'solver') execute on every push against the Ubuntu ngspice package (ngspice 42) and were also run against ngspice 47 on Windows; they are skipped locally when ngspice is absent. Agreement between the two is recorded in docs/validation.md.
+- Limitation: Executed DAB simulations are Level 1 ideal and Level 2 behavioural models with datasheet-sourced parameters; no manufacturer SPICE model (Level 3) has been executed or validated.
+- Limitation: Skills for LTspice, PLECS, MATLAB/Simulink, SIMetrix/SIMPLIS, ANSYS and COMSOL are written procedures only: this repository bundles no vendor software, models or libraries and has not executed those tools.
+- Limitation: FreeCAD, KiCad, FEA solvers and MCP connectors are not executed by this repository; their skills remain procedural guidance.
+- Limitation: No measurements or full Engineering State round-trip adapter claimed; AIPE-Workflows maps the run outputs into Core evidence.
+- [Documentation: README.md](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/README.md)
+- [Documentation: docs/tool-policy.md](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/docs/tool-policy.md)
+- [Documentation: docs/core-mapping.md](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/docs/core-mapping.md)
+- [Documentation: skills.json](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/skills.json)
+- [Documentation: docs/validation.md](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/docs/validation.md)
+- [Documentation: docs/dab-models.md](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/docs/dab-models.md)
+- [Documentation: docs/waveform-dataset.md](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/docs/waveform-dataset.md)
+- [Documentation: CHANGELOG.md](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/CHANGELOG.md)
+- [Documentation: pyproject.toml](https://github.com/AIPE-Labs/AIPE-Simulation-Skills/blob/493b64a986e1472eef56cc5897d96aefa9564501/pyproject.toml)
 
 ## AIPE Academy
 
@@ -346,44 +387,6 @@ Licence: `NOASSERTION`. Validation: `tested`.
 - [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/ba52e24dd2bce9d060a4ec81cc4f74ab3ded7db4/docs/architecture.md)
 - [Documentation: LICENSING.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/ba52e24dd2bce9d060a4ec81cc4f74ab3ded7db4/LICENSING.md)
 - [Documentation: data/candidates/README.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/ba52e24dd2bce9d060a4ec81cc4f74ab3ded7db4/data/candidates/README.md)
-
-## AIPE Simulation Skills
-
-Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows, plus the executable aipe_simulation package: ngspice qualification and batch runner, dual-active-bridge switching-circuit generator (ideal and behavioural levels) and a solver-independent waveform analysis engine (HDF5 datasets, steady-state detection, per-switch metrics).
-
-Stage: **incubating**, no tagged release pinned.
-
-Capabilities: averaged-control-analysis, switching-circuit-simulation, mechanical-packaging, pcb-power-stage-review, field-analysis-problem-setup, digital-control-debugging, dab-switching-circuit-generation, waveform-analysis-engine, solver-tool-qualification.
-
-Licence: `NOASSERTION`. Validation: `tested`.
-
-- [ANSYS](https://www.ansys.com/): commercial; optional; interfaces: scripting.
-- [CalculiX](https://www.calculix.de/): open_source; optional; interfaces: cli, inp.
-- [COMSOL](https://www.comsol.com/): commercial; optional; interfaces: java-api, batch.
-- [Elmer FEM](https://github.com/ElmerCSC/elmerfem): open_source; optional; interfaces: cli, sif.
-- [FreeCAD](https://www.freecad.org/): open_source; optional; interfaces: python, cli.
-- [GetDP](https://getdp.info/): open_source; optional; interfaces: cli, pro.
-- [Gmsh](https://gmsh.info/): open_source; optional; interfaces: cli, python.
-- [KiCad](https://www.kicad.org/): open_source; optional; interfaces: cli, ipc, python.
-- [LTspice](https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html): free_proprietary; optional; interfaces: batch, netlist.
-- [MATLAB / Simulink](https://www.mathworks.com/products/simulink.html): commercial; optional; interfaces: matlab, batch.
-- [ngspice](https://ngspice.sourceforge.io/): open_source; optional; interfaces: cli, netlist.
-- [openEMS](https://www.openems.de/): open_source; optional; interfaces: python, octave.
-- [PLECS](https://www.plexim.com/plecs): commercial; optional; interfaces: scripting, xml-rpc.
-- [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
-- [python-control](https://python-control.org/): open_source; optional; interfaces: python.
-- [SIMetrix / SIMPLIS](https://www.simetrix.co.uk/): commercial; optional; interfaces: scripting, netlist.
-- Limitation: Local Python numerical tests passed; ngspice solver tests (tests/test_dab_ngspice.py, marker 'solver') ran against ngspice 47 on Windows and are skipped when ngspice is absent.
-- Limitation: Executed DAB simulations are Level 1 ideal and Level 2 behavioural models with datasheet-sourced parameters; no manufacturer SPICE model (Level 3) has been executed or validated.
-- Limitation: FreeCAD, KiCad, FEA solvers and MCP connectors are not executed by this repository; their skills remain procedural guidance.
-- Limitation: No measurements or full Engineering State round-trip adapter claimed; AIPE-Workflows maps the run outputs into Core evidence.
-- [Documentation: README.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/1301c89ea9630d458c1136e15b2c1861002c5090/README.md)
-- [Documentation: docs/tool-policy.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/1301c89ea9630d458c1136e15b2c1861002c5090/docs/tool-policy.md)
-- [Documentation: docs/core-mapping.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/1301c89ea9630d458c1136e15b2c1861002c5090/docs/core-mapping.md)
-- [Documentation: skills.json](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/1301c89ea9630d458c1136e15b2c1861002c5090/skills.json)
-- [Documentation: docs/validation.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/1301c89ea9630d458c1136e15b2c1861002c5090/docs/validation.md)
-- [Documentation: docs/dab-models.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/1301c89ea9630d458c1136e15b2c1861002c5090/docs/dab-models.md)
-- [Documentation: pyproject.toml](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/1301c89ea9630d458c1136e15b2c1861002c5090/pyproject.toml)
 
 ## AIPE Sketcher
 

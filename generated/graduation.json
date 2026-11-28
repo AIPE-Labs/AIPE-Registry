@@ -74,9 +74,10 @@
       "stage": "incubating"
     },
     "aipe.simulation-skills": {
-      "commit": "1301c89ea9630d458c1136e15b2c1861002c5090",
-      "repository": "https://github.com/FulongLi/AIPE-Simulation-Skills",
-      "stage": "incubating"
+      "commit": "493b64a986e1472eef56cc5897d96aefa9564501",
+      "release": "v0.2.1",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Simulation-Skills",
+      "stage": "graduated"
     },
     "aipe.sketch": {
       "commit": "57a343e91b4005b14f57e2bc51685de6a5f4a983",

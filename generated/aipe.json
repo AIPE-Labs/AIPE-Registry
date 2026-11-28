@@ -2284,6 +2284,8 @@
         "skills.json",
         "docs/validation.md",
         "docs/dab-models.md",
+        "docs/waveform-dataset.md",
+        "CHANGELOG.md",
         "pyproject.toml"
       ],
       "domains": [
@@ -2300,10 +2302,10 @@
         {
           "description": "Portable engineering context.",
           "name": "engineering-state",
-          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+          "schema": "https://raw.githubusercontent.com/AIPE-Labs/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
         }
       ],
-      "license": "NOASSERTION",
+      "license": "MIT",
       "maturity": "usable",
       "name": "AIPE Simulation Skills",
       "outputs": [
@@ -2312,7 +2314,7 @@
           "name": "analysis-artifacts"
         }
       ],
-      "repository": "https://github.com/FulongLi/AIPE-Simulation-Skills",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Simulation-Skills",
       "schema_version": "0.1.0",
       "status": "active",
       "tools": [
@@ -2676,6 +2678,7 @@
           "tests/test_metadata.py",
           "docs/validation.md",
           "tests/test_dab_ngspice.py",
+          "tests/test_dab_level2_ngspice.py",
           "tests/test_dab_spec_netlist.py",
           "tests/test_metrics.py",
           "tests/test_steady_state.py",
@@ -2685,8 +2688,9 @@
           "docs/dab-models.md"
         ],
         "limitations": [
-          "Local Python numerical tests passed; ngspice solver tests (tests/test_dab_ngspice.py, marker 'solver') ran against ngspice 47 on Windows and are skipped when ngspice is absent.",
+          "Solver tests (pytest marker 'solver') execute on every push against the Ubuntu ngspice package (ngspice 42) and were also run against ngspice 47 on Windows; they are skipped locally when ngspice is absent. Agreement between the two is recorded in docs/validation.md.",
           "Executed DAB simulations are Level 1 ideal and Level 2 behavioural models with datasheet-sourced parameters; no manufacturer SPICE model (Level 3) has been executed or validated.",
+          "Skills for LTspice, PLECS, MATLAB/Simulink, SIMetrix/SIMPLIS, ANSYS and COMSOL are written procedures only: this repository bundles no vendor software, models or libraries and has not executed those tools.",
           "FreeCAD, KiCad, FEA solvers and MCP connectors are not executed by this repository; their skills remain procedural guidance.",
           "No measurements or full Engineering State round-trip adapter claimed; AIPE-Workflows maps the run outputs into Core evidence."
         ],
