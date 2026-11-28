@@ -190,16 +190,18 @@
       "state": "pinned"
     },
     {
-      "commit": "1301c89ea9630d458c1136e15b2c1861002c5090",
-      "committed_at": "2026-10-22T15:35:23+01:00",
+      "commit": "493b64a986e1472eef56cc5897d96aefa9564501",
+      "committed_at": "2026-11-28T12:36:50+00:00",
       "id": "aipe.simulation-skills",
       "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
-      "ref": "1301c89ea9630d458c1136e15b2c1861002c5090",
-      "repository": "https://github.com/FulongLi/AIPE-Simulation-Skills",
-      "sha256": "34304f2ac01272c9d8f60e9a074db242aaff245fd5a5834f0ee4fccbe84169a3",
+      "ref": "493b64a986e1472eef56cc5897d96aefa9564501",
+      "release": "v0.2.1",
+      "repository": "https://github.com/AIPE-Labs/AIPE-Simulation-Skills",
+      "sha256": "4a17d5d6f1074ffb0d772943fd5b94bc1814010ea99208a1b758db3ca85878ea",
       "snapshot": "snapshots/aipe.simulation-skills.yaml",
+      "stage": "graduated",
       "state": "pinned"
     },
     {

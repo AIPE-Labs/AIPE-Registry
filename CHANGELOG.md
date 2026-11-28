@@ -3,6 +3,8 @@
 ## Unreleased
 
 - AIPE-Core `v0.1.0` and AIPE-Registry `v0.1.0` are graduated.
+- AIPE-Simulation-Skills `v0.2.1` is graduated (MIT, now at AIPE-Labs; its ngspice
+  dual-active-bridge simulation is executed in CI).
 
 ## 0.1.0 — 2026-11-27
 
